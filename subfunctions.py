@@ -9,3 +9,7 @@ def sum_product(x,y):
     
         else:
             raise Exception('The length of x and y are not the same')
+
+def mean(list):
+     mean = sum(list)/len(list)
+     return mean
