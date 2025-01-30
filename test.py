@@ -1,9 +1,5 @@
-a=[1,2,3]
-# b=[2,1,3]
-# list=[]
+from subfunctions import sum_product
 
-# for i in range(3):
-#     element = a[i] * b[i]
-#     list.append(element)
-# print(list)
-print(a.sum())
+a=[1,2,3]
+b=[2,1,0] 
+print(sum_product(a,b))
