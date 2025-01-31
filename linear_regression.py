@@ -1,3 +1,5 @@
+import sympy as sp
+import matplotlib.pyplot as plt
 from subfunctions import *
 
 def linear_regression_equation(x,y):
@@ -13,13 +15,25 @@ def linear_regression_equation(x,y):
     m = (n * sum_product_x_y - sum_x * sum_y) / ((n * sum_x_squared) - square_sum_x)
     b = mean(y) - (m * mean(x))
   
-
     equation = f'f(x) = {round(m, 5)}x + ({round(b,5)})'
     print(equation)
-    # print(sum_x)
-    # print(sum_x_squared)
-    # print(sum_product_x_y)
-    # print(sum_y)
-    # print(square_sum_x)
-                                         
-linear_regression_equation([1,2,3,4,5,6,7],[1,1.2,1,2,3,2.6,3.4])
+
+    plt.scatter(x, y, color='red', label='Data points')
+
+    
+    x_range = [min(x), max(x)]
+    y_range = [m * x_i + b for x_i in x_range]
+
+    # Plot regression line
+    plt.plot(x_range, y_range, color='blue', linestyle='-', label='Regression line')
+
+    plt.axhline(0, color='black', linewidth=0.5)
+    plt.axvline(0, color='black', linewidth=0.5)
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.title(f"Linear Regression Equation: {equation}")
+    plt.legend()
+    plt.grid(True, linestyle="--", alpha=0.6)
+
+    plt.show()
+                                            
