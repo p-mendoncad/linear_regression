@@ -13,6 +13,7 @@ def sum_product(x,y):
             sum_product_x_y= sum(product_list)
         return sum_product_x_y
     
+#def correlation_coefficient(x,y):
 
 def mean(list):
      mean = sum(list)/len(list)

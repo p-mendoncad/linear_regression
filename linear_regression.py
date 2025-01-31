@@ -15,15 +15,18 @@ def linear_regression_equation(x,y):
     b = mean(y) - (m * mean(x))
   
     equation = f'f(x) = {round(m, 5)}x + ({round(b,5)})'
-    print(equation)
-
-    plt.scatter(x, y, color='red', label='Data points')
-
     
     x_range = [min(x), max(x)]
     y_range = [m * x_i + b for x_i in x_range]
 
-    # Plot regression line
+    residuals = [y[i] - (m * x[i] + b) for i in range(n)]
+    ssr = sum([i**2 for i in residuals])
+    mse = ssr/n
+
+    print(f'{equation} \n{residuals} \nSSR: {ssr}\nMSE: {mse}')
+
+    plt.scatter(x, y, color='red', label='Data points')
+
     plt.plot(x_range, y_range, color='blue', linestyle='-', label='Regression line')
 
     plt.axhline(0, color='black', linewidth=0.5)
@@ -35,4 +38,3 @@ def linear_regression_equation(x,y):
     plt.grid(True, linestyle="--", alpha=0.6)
 
     plt.show()
-                                            
