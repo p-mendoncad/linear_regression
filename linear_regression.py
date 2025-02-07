@@ -1,40 +1,82 @@
+#add correlation and coefficient of determination
 import matplotlib.pyplot as plt
 from subfunctions import *
+class LinReg:
 
-def linear_regression_equation(x,y):
-    sum_product_x_y=sum_product(x,y)
-    sum_x = sum(x)
-    sum_y = sum(y)
-    sum_x_squared =sum(n**2 for n in x)
-    square_sum_x = sum_x**2
+    def __init__(self, x: list, y: list):
+        if not x or not y:
+            raise AttributeError('One or both lists are empty')
+        elif any(i is None for i in x) or any(i is None for i in y):
+            raise ValueError("One or both lists contain None elements")
+        elif len(x) != len(y):
+            raise AttributeError('The length of x and y are not the same')
+        else:
+            self.x = x
+            self.y = y
 
-# y = mx + b
-# n = len(x) = len(y)
-    n = len(x)
-    m = (n * sum_product_x_y - sum_x * sum_y) / ((n * sum_x_squared) - square_sum_x)
-    b = mean(y) - (m * mean(x))
-  
-    equation = f'f(x) = {round(m, 5)}x + ({round(b,5)})'
+    def get_n(self):
+        return len(self.x)
+
+    def sum_product_x_y(self):
+        result = sum(x_i * y_i for x_i, y_i in zip(self.x, self.y))
+        return result
+
+    def sum_x(self):
+        result = sum(self.x)
+        return result
+
+    def sum_y(self):
+        result = sum(self.y)
+        return result
+
+    def sum_x_squared(self):
+        result = sum(num ** 2 for num in self.x)
+        return result
+
+    def square_sum_x(self):
+        result = self.sum_x() ** 2
+        return result
+
+    def get_m(self):
+        numerator = (self.get_n() * self.sum_product_x_y()) - (self.sum_x() * self.sum_y())
+        denominator = (self.get_n() * self.sum_x_squared()) - self.square_sum_x()
+        if denominator == 0:
+            raise ZeroDivisionError("Denominator is zero, cannot calculate slope.")
+        m = numerator / denominator
+        return m
+
+    def get_b(self):
+        b = mean(self.y) - (self.get_m() * mean(self.x))
+        return b
+
+    def get_equation(self):
+        m = self.get_m()
+        b = self.get_b()
+        equation = f'f(x) = {round(m, 5)}x + ({round(b, 5)})'
+        return equation
     
-    x_range = [min(x), max(x)]
-    y_range = [m * x_i + b for x_i in x_range]
+    # def metrics(self):
+    #     # residuals = [y[i] - (m * x[i] + b) for i in range(n)]
+    #     # ssr = sum([i**2 for i in residuals])
+    #     # mse = ssr/n
+    #     info = f'{LinReg.get_equation()} \n{residuals} \nSSR: {ssr}\nMSE: {mse}'
+    #     return info
 
-    residuals = [y[i] - (m * x[i] + b) for i in range(n)]
-    ssr = sum([i**2 for i in residuals])
-    mse = ssr/n
 
-    print(f'{equation} \n{residuals} \nSSR: {ssr}\nMSE: {mse}')
+    def plot(self):
+        x_range = [min(self.x), max(self.x)]
+        y_range = [self.get_m() * x_i + self.get_b() for x_i in x_range]
 
-    plt.scatter(x, y, color='red', label='Data points')
+        plt.scatter(self.x, self.y, color='red', label='Data points')
 
-    plt.plot(x_range, y_range, color='blue', linestyle='-', label='Regression line')
+        plt.plot(x_range, y_range, color='blue', linestyle='-', label='Regression line')
 
-    plt.axhline(0, color='black', linewidth=0.5)
-    plt.axvline(0, color='black', linewidth=0.5)
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.title(f"Linear Regression Equation: {equation}")
-    plt.legend()
-    plt.grid(True, linestyle="--", alpha=0.6)
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.xlabel("x")
+        plt.ylabel("y")
+        plt.title(f"Linear Regression Equation: {self.get_equation()}")
+        plt.legend()
+        plt.grid(True, linestyle="--", alpha=0.6)
 
-    plt.show()
+        plt.show()

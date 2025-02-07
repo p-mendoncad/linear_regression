@@ -17,4 +17,7 @@ import unittest
 
 # if __name__ == "__main__":
 #     unittest.main()
-linear_regression_equation([1,2,3,4,5,6,7],[1,1.2,1,2,3,2.6,3.4])
+linreg = LinReg([1,2,3,4,5,6],[1,1.2,1,2,3,2.6,3.4])
+print(linreg.get_equation())
+# linreg.plot()
+
