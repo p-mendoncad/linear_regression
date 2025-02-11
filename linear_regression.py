@@ -55,12 +55,13 @@ class LinReg:
         equation = f'f(x) = {round(m, 5)}x + ({round(b, 5)})'
         return equation
     
-    # def metrics(self):
-    #     # residuals = [y[i] - (m * x[i] + b) for i in range(n)]
-    #     # ssr = sum([i**2 for i in residuals])
-    #     # mse = ssr/n
-    #     info = f'{LinReg.get_equation()} \n{residuals} \nSSR: {ssr}\nMSE: {mse}'
-    #     return info
+    def metrics(self):
+        residuals = [self.y[i] - (self.get_m() * self.x[i] + self.get_b()) for i in range(self.get_n())]
+        residuals = [round(r, 5) for r in residuals]
+        ssr = sum([i**2 for i in residuals])
+        mse = ssr/self.get_n()
+        info = f'\n{residuals} \nSSR: {ssr}\nMSE: {mse}'
+        return info
 
 
     def plot(self):
